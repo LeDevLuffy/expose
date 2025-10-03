@@ -12,7 +12,7 @@
 <div class="section">
     <h2>{{ s.title }}</h2>
     {% if s.type=="text" %}
-    <p>{{ s.content }}</p>
+    <p>{{ s.content | safe }}</p>
     {% elif s.type=="image" %}
     <img src="{{ s.content }}" alt="{{ s.title }}">
     {% elif s.type=="list" %}

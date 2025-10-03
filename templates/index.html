@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<title>Exposé Interactif</title>
+<link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+<h1>Exposé Interactif</h1>
+
+{% for s in sections %}
+<div class="section">
+    <h2>{{ s.title }}</h2>
+    {% if s.type=="text" %}
+    <p>{{ s.content }}</p>
+    {% elif s.type=="image" %}
+    <img src="{{ s.content }}" alt="{{ s.title }}">
+    {% elif s.type=="list" %}
+    <ul>
+        {% for item in s.content.split(',') %}
+        <li>{{ item }}</li>
+        {% endfor %}
+    </ul>
+    {% endif %}
+    <form method="post" action="{{ url_for('like_section', section_id=s.id) }}">
+        <button type="submit">J'aime ({{ s.get('likes',0) }})</button>
+    </form>
+</div>
+{% endfor %}
+
+<h2>Posez vos questions</h2>
+<form method="post" action="{{ url_for('ask_question') }}">
+    <input type="text" name="question" placeholder="Écris ta question ici" required>
+    <button type="submit">Envoyer</button>
+</form>
+
+</body>
+</html>

@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<title>Panel Admin</title>
+<link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+<h1>Panel Admin</h1>
+
+{% if not auth %}
+<form method="post">
+    <input type="password" name="password" placeholder="Mot de passe">
+    <button type="submit">Se connecter</button>
+</form>
+{% else %}
+
+<h2>Gérer les sections</h2>
+<table>
+<tr><th>ID</th><th>Titre</th><th>Type</th><th>Visible</th><th>Actions</th></tr>
+{% for s in sections %}
+<tr>
+    <td>{{ s.id }}</td>
+    <td>{{ s.title }}</td>
+    <td>{{ s.type }}</td>
+    <td>{{ 'Oui' if s.visible else 'Non' }}</td>
+    <td><a href="{{ url_for('toggle_visibility', section_id=s.id) }}">Changer visibilité</a></td>
+</tr>
+{% endfor %}
+</table>
+
+<h3>Ajouter une section</h3>
+<form method="post" action="{{ url_for('add_section') }}">
+    <input type="text" name="title" placeholder="Titre" required>
+    <input type="text" name="type" placeholder="text/image/list" required>
+    <input type="text" name="content" placeholder="Contenu (texte, URL ou items séparés par virgule)" required>
+    <label><input type="checkbox" name="visible"> Visible pour élèves</label>
+    <button type="submit">Ajouter section</button>
+</form>
+
+<h2>Questions élèves</h2>
+<table>
+<tr><th>ID</th><th>Question</th><th>Répondu</th><th>Actions</th></tr>
+{% for q in questions %}
+<tr class="{{ 'replied' if q.answered else '' }}">
+    <td>{{ q.id }}</td>
+    <td>{{ q.text }}</td>
+    <td>{{ 'Oui' if q.answered else 'Non' }}</td>
+    <td><a href="{{ url_for('mark_answered', question_id=q.id) }}">Marquer Répondu/Non</a></td>
+</tr>
+{% endfor %}
+</table>
+
+{% endif %}
+</body>
+</html>

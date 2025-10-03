@@ -6,7 +6,7 @@ app = Flask(__name__)
 
 SECTIONS_FILE = "sections.json"
 QUESTIONS_FILE = "questions.json"
-ADMIN_PASSWORD = "Pixiedodo37"  # Change ce mot de passe
+ADMIN_PASSWORD = "Pixiedodo37"
 
 # ------------------ Fonctions utilitaires ------------------
 def load_json(file):

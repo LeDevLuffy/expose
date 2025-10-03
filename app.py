@@ -102,5 +102,7 @@ def mark_answered(question_id):
     save_json(QUESTIONS_FILE, questions)
     return redirect(url_for("admin_panel"))
 
+# ------------------ Adaptation Render ------------------
 if __name__=="__main__":
-    app.run(debug=True)
+    port = int(os.environ.get("PORT", 5000))  # Utilise le port fourni par Render
+    app.run(host="0.0.0.0", port=port, debug=True)
